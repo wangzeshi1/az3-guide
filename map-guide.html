@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>三角洲行动 最快熟图技巧 — 航天基地篇</title>
+<meta name="description" content="三角洲行动最全熟图攻略 — 从萌新到人形GPS的高效学习法，适用于航天基地及所有地图">
+<style>
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth;scroll-padding-top:70px}
+  body{
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+    background: #0a0e0f; color: #c8ccd0; line-height: 1.75; font-size: 16px;
+  }
+  :root{
+    --bg: #0a0e0f; --bg-card: #13181a; --bg-card-hover: #1a2023;
+    --border: #252b2e; --gold: #d4a853; --gold-bright: #f0c060;
+    --green: #5a9e6f; --green-bright: #7cc08a; --red: #c44b4b;
+    --red-bright: #e06060; --accent: #3a7bd5; --text: #c8ccd0;
+    --text-dim: #7a8086; --text-bright: #e8ecf0; --purple: #9b7ec4;
+  }
+  .navbar{
+    position:fixed;top:0;left:0;right:0;z-index:1000;background:rgba(10,14,15,0.92);
+    backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+    border-bottom:1px solid var(--border);padding:0 24px;
+    display:flex;align-items:center;justify-content:space-between;height:60px;
+  }
+  .navbar .logo{font-size:1.15rem;font-weight:700;color:var(--text-bright);text-decoration:none;display:flex;align-items:center;gap:10px}
+  .navbar .logo .icon{font-size:1.6rem}
+  .nav-links{display:flex;gap:6px;list-style:none;flex-wrap:wrap;justify-content:flex-end}
+  .nav-links a{color:var(--text-dim);text-decoration:none;font-size:.85rem;padding:6px 12px;border-radius:6px;transition:all .2s;white-space:nowrap}
+  .nav-links a:hover,.nav-links a.active{color:var(--gold);background:rgba(212,168,83,0.08)}
+  .menu-btn{display:none;background:none;border:none;color:var(--text);font-size:1.5rem;cursor:pointer}
+
+  .hero{
+    min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;
+    text-align:center;padding:100px 24px 80px;
+    background:radial-gradient(ellipse at 50% 30%, rgba(58,123,213,0.08) 0%, transparent 60%),
+               radial-gradient(ellipse at 80% 70%, rgba(212,168,83,0.06) 0%, transparent 50%), var(--bg);
+    position:relative;overflow:hidden;
+  }
+  .hero::before{
+    content:'';position:absolute;inset:0;
+    background:url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none'%3E%3Cg fill='%23252b2e' fill-opacity='0.12'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    opacity:0.4;pointer-events:none;
+  }
+  .hero .badge{display:inline-block;padding:6px 16px;border:1px solid var(--accent);color:var(--accent);font-size:.8rem;border-radius:20px;letter-spacing:2px;margin-bottom:24px;position:relative;text-transform:uppercase}
+  .hero h1{font-size:clamp(2.2rem,5vw,4rem);font-weight:900;color:var(--text-bright);line-height:1.2;position:relative;margin-bottom:16px}
+  .hero h1 .accent{color:var(--accent)}
+  .hero .subtitle{font-size:1.15rem;color:var(--text-dim);max-width:560px;position:relative;margin-bottom:40px}
+  .hero .stats{display:flex;gap:40px;position:relative;flex-wrap:wrap;justify-content:center}
+  .hero .stat{text-align:center}
+  .hero .stat .num{font-size:2rem;font-weight:800;color:var(--accent)}
+  .hero .stat .label{font-size:.8rem;color:var(--text-dim);margin-top:2px}
+
+  .section{padding:80px 24px;max-width:1000px;margin:0 auto}
+  .section-header{text-align:center;margin-bottom:56px}
+  .section-header h2{font-size:clamp(1.6rem,3vw,2.2rem);font-weight:800;color:var(--text-bright);margin-bottom:12px}
+  .section-header p{color:var(--text-dim);max-width:500px;margin:0 auto}
+
+  .card{background:var(--bg-card);border:1px solid var(--border);border-radius:12px;padding:28px;transition:all .25s}
+  .card:hover{background:var(--bg-card-hover);border-color:#333a3f;transform:translateY(-2px)}
+  .card h3{font-size:1.1rem;color:var(--text-bright);margin-bottom:12px;display:flex;align-items:center;gap:8px}
+  .card h3 .emoji{font-size:1.3rem}
+  .grid-2{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:20px}
+  .grid-3{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px}
+
+  .table-wrap{overflow-x:auto;margin:0 -8px;padding:0 8px}
+  table{width:100%;border-collapse:collapse;font-size:.95rem}
+  thead th{background:var(--bg-card);color:var(--text-bright);text-align:left;padding:14px 18px;font-weight:700;border-bottom:2px solid var(--border);white-space:nowrap}
+  thead th:first-child{border-radius:8px 0 0 0}
+  thead th:last-child{border-radius:0 8px 0 0}
+  tbody td{padding:12px 18px;border-bottom:1px solid var(--border);vertical-align:top}
+  tbody tr:hover{background:rgba(255,255,255,0.015)}
+  tbody tr:last-child td:first-child{border-radius:0 0 0 8px}
+  tbody tr:last-child td:last-child{border-radius:0 0 8px 0}
+
+  .tip-list{list-style:none;display:flex;flex-direction:column;gap:12px}
+  .tip-list li{background:var(--bg-card);border:1px solid var(--border);border-radius:10px;padding:16px 20px;display:flex;align-items:flex-start;gap:12px;transition:all .2s}
+  .tip-list li:hover{border-color:#333a3f}
+  .tip-list li .num{width:28px;height:28px;border-radius:50%;background:var(--accent);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:.85rem;flex-shrink:0}
+  .tip-list li .num.gold{background:var(--gold);color:#0a0e0f}
+
+  .phase-card{background:var(--bg-card);border:1px solid var(--border);border-radius:12px;overflow:hidden;transition:all .25s}
+  .phase-card:hover{border-color:#333a3f}
+  .phase-card .phase-header{padding:20px 24px;display:flex;align-items:center;gap:12px;border-bottom:1px solid var(--border);background:rgba(58,123,213,0.04)}
+  .phase-card .phase-num{font-size:2.5rem;font-weight:900;color:var(--accent);opacity:.3;line-height:1}
+  .phase-card .phase-title{font-size:1.1rem;font-weight:700;color:var(--text-bright)}
+  .phase-card .phase-body{padding:20px 24px}
+
+  .blockquote{background:linear-gradient(135deg,rgba(58,123,213,0.06),rgba(58,123,213,0.02));border-left:3px solid var(--accent);border-radius:0 10px 10px 0;padding:24px 28px;margin:32px 0}
+  .blockquote p{font-size:1.1rem;color:#7bafd4;font-style:italic}
+  .blockquote.gold{background:linear-gradient(135deg,rgba(212,168,83,0.06),rgba(212,168,83,0.02));border-left-color:var(--gold)}
+  .blockquote.gold p{color:var(--gold-bright)}
+
+  .code-tip{background:#0d1114;border:1px solid var(--border);border-radius:10px;padding:20px;font-family:"SF Mono","Fira Code","Consolas",monospace;font-size:.88rem;color:var(--green-bright);line-height:1.8;overflow-x:auto;white-space:pre-wrap}
+  .hl-gold{color:var(--gold-bright);font-weight:600}
+  .hl-blue{color:#7bafd4;font-weight:600}
+  .hl-green{color:var(--green-bright);font-weight:600}
+  .hl-red{color:var(--red-bright);font-weight:600}
+
+  .step-arrow{display:flex;align-items:center;gap:12px;flex-wrap:wrap;justify-content:center;margin:24px 0;font-size:.95rem}
+  .step-arrow .step{background:var(--bg-card);border:1px solid var(--border);padding:10px 18px;border-radius:8px;color:var(--text-bright);font-weight:600}
+  .step-arrow .arrow{color:var(--accent);font-size:1.3rem;font-weight:800}
+
+  .checklist{list-style:none;line-height:2.4}
+  .checklist li::before{content:'☐ ';color:var(--text-dim);margin-right:8px}
+  .checklist li.done::before{content:'✅ ';color:var(--green-bright)}
+
+  .footer{text-align:center;padding:48px 24px;color:var(--text-dim);font-size:.85rem;border-top:1px solid var(--border)}
+  .footer a{color:var(--accent);text-decoration:none}
+
+  .scroll-top{position:fixed;bottom:24px;right:24px;z-index:999;width:44px;height:44px;border-radius:50%;background:var(--bg-card);border:1px solid var(--border);color:var(--text);font-size:1.2rem;cursor:pointer;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:all .3s}
+  .scroll-top.visible{opacity:1;pointer-events:auto}
+  .scroll-top:hover{background:var(--bg-card-hover);border-color:var(--accent);color:var(--accent)}
+
+  @media(max-width:768px){
+    .nav-links{display:none}
+    .nav-links.open{display:flex;flex-direction:column;position:absolute;top:60px;left:0;right:0;background:rgba(10,14,15,0.97);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);padding:12px}
+    .nav-links a{padding:10px 12px}
+    .menu-btn{display:block}
+    .hero .stats{gap:24px}
+    .grid-2,.grid-3{grid-template-columns:1fr}
+    .section{padding:56px 16px}
+  }
+</style>
+</head>
+<body>
+
+<nav class="navbar">
+  <a href="#" class="logo"><span class="icon">🧠</span> 最快熟图技巧</a>
+  <button class="menu-btn" aria-label="菜单" onclick="document.querySelector('.nav-links').classList.toggle('open')">☰</button>
+  <ul class="nav-links">
+    <li><a href="#mindset">心态</a></li>
+    <li><a href="#method">四步法</a></li>
+    <li><a href="#spaceport">航天基地</a></li>
+    <li><a href="#routine">训练计划</a></li>
+    <li><a href="#advanced">进阶</a></li>
+    <li><a href="index.html" style="color:var(--gold)">🗡️ 跑刀</a></li>
+  </ul>
+</nav>
+
+<section class="hero">
+  <div class="badge">Delta Force · 地图攻略</div>
+  <h1>最快<span class="accent">熟图</span>技巧</h1>
+  <p class="subtitle">从"我在哪谁打我"到人形GPS，掌握这套方法，任何地图都能快速上手。</p>
+  <div class="stats">
+    <div class="stat"><div class="num">3天</div><div class="label">基础熟悉</div></div>
+    <div class="stat"><div class="num">1周</div><div class="label">核心掌握</div></div>
+    <div class="stat"><div class="num">2周</div><div class="label">人形GPS</div></div>
+  </div>
+</section>
+
+<!-- ===== 心态 ===== -->
+<section class="section" id="mindset">
+  <div class="section-header">
+    <h2>🧠 先看心态</h2>
+    <p>熟图不是死记硬背，而是一套学习方法</p>
+  </div>
+
+  <div class="grid-2">
+    <div class="card" style="border-left:3px solid var(--red)">
+      <h3><span class="emoji">❌</span>最常见的错误</h3>
+      <ul style="list-style:none;line-height:2.2;font-size:.92rem">
+        <li>🔫 只想着打架，不记地形</li>
+        <li>🗺️ 开局就跟着队友跑，从不看地图</li>
+        <li>😱 被打死了不知道子弹从哪来</li>
+        <li>🔄 每次都走同一条路，不敢探索</li>
+      </ul>
+    </div>
+    <div class="card" style="border-left:3px solid var(--green)">
+      <h3><span class="emoji">✅</span>正确的熟图心态</h3>
+      <ul style="list-style:none;line-height:2.2;font-size:.92rem">
+        <li>📐 每局都有明确的学习目标</li>
+        <li>🗒️ 死了先看回放，记住击杀者的位置</li>
+        <li>🔍 跑刀/离线模式专门用来探图</li>
+        <li>📝 用笔记本记录关键点位和角度</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="blockquote" style="margin-top:32px">
+    <p>"大神和普通玩家的差距，不在于枪法，而在于他对地图的理解比你多一个维度。你知道这个房间有物资，他知道这个房间有三个入口、两个架枪位、一条逃生路线。"</p>
+  </div>
+</section>
+
+<!-- ===== 四步法 ===== -->
+<section class="section" id="method" style="background:rgba(255,255,255,0.008)">
+  <div class="section-header">
+    <h2>📐 熟图四步法</h2>
+    <p>一套适用于任何FPS地图的系统学习方法</p>
+  </div>
+
+  <div class="step-arrow" style="margin-bottom:40px">
+    <span class="step">1️⃣ 摸骨</span><span class="arrow">→</span>
+    <span class="step">2️⃣ 画皮</span><span class="arrow">→</span>
+    <span class="step">3️⃣ 通筋</span><span class="arrow">→</span>
+    <span class="step">4️⃣ 入魂</span>
+  </div>
+
+  <!-- Phase 1 -->
+  <div class="phase-card" style="margin-bottom:20px">
+    <div class="phase-header">
+      <span class="phase-num">01</span>
+      <div>
+        <div class="phase-title">摸骨 — 了解地图骨架</div>
+        <div style="color:var(--text-dim);font-size:.85rem">目标：知道"我在哪"和"哪里能去哪里"</div>
+      </div>
+    </div>
+    <div class="phase-body">
+      <div class="grid-2">
+        <div>
+          <h4 style="color:var(--text-bright);margin-bottom:8px">📋 具体做法</h4>
+          <ul class="tip-list">
+            <li><span class="num">1</span><span>开离线模式，不拿武器纯跑图，把每个区域都走一遍</span></li>
+            <li><span class="num">2</span><span>打开大地图对照，确认每个区域的名字和方位</span></li>
+            <li><span class="num">3</span><span>记住所有主要建筑的外形特征（从远处能一眼认出来）</span></li>
+            <li><span class="num">4</span><span>认出所有区域的连接通道（路、桥、隧道、楼梯）</span></li>
+          </ul>
+          <p style="margin-top:12px;font-size:.85rem;color:var(--text-dim)">⏱ 耗时：2-3局离线模式，每局20分钟</p>
+        </div>
+        <div class="code-tip">
+# 摸骨阶段自查清单
+✅ 能闭眼说出地图所有区域名
+✅ 知道每个区域在地图上的方位
+✅ 知道任意两区之间有几条路
+✅ 能从远处认出每个主要建筑
+✅ 知道地图边界在哪（不会撞墙）
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Phase 2 -->
+  <div class="phase-card" style="margin-bottom:20px">
+    <div class="phase-header">
+      <span class="phase-num">02</span>
+      <div>
+        <div class="phase-title">画皮 — 填充细节信息</div>
+        <div style="color:var(--text-dim);font-size:.85rem">目标：知道每个区域的内部结构和物资分布</div>
+      </div>
+    </div>
+    <div class="phase-body">
+      <div class="grid-2">
+        <div>
+          <h4 style="color:var(--text-bright);margin-bottom:8px">📋 具体做法</h4>
+          <ul class="tip-list">
+            <li><span class="num">1</span><span>逐个区域深入探索：每个建筑的每层、每个房间</span></li>
+            <li><span class="num">2</span><span>记住所有入口/出口（包括窗户、天窗、地道）</span></li>
+            <li><span class="num">3</span><span>标记高价值物资刷新点</span></li>
+            <li><span class="num">4</span><span>记录常用架枪位和蹲点位置</span></li>
+          </ul>
+          <p style="margin-top:12px;font-size:.85rem;color:var(--text-dim)">⏱ 耗时：5-8局跑刀/离线，每个区域至少深入2次</p>
+        </div>
+        <div class="code-tip">
+# 画皮阶段自查清单
+✅ 每个建筑的每层有什么房间
+✅ 每个房间有多少个出入口
+✅ 高价值物资在哪些具体位置刷新
+✅ 哪些窗户可以翻越/射击
+✅ 楼梯和电梯的位置
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Phase 3 -->
+  <div class="phase-card" style="margin-bottom:20px">
+    <div class="phase-header">
+      <span class="phase-num">03</span>
+      <div>
+        <div class="phase-title">通筋 — 掌握战术路线</div>
+        <div style="color:var(--text-dim);font-size:.85rem">目标：知道实战中怎么走、怎么打、怎么撤</div>
+      </div>
+    </div>
+    <div class="phase-body">
+      <div class="grid-2">
+        <div>
+          <h4 style="color:var(--text-bright);margin-bottom:8px">📋 具体做法</h4>
+          <ul class="tip-list">
+            <li><span class="num">1</span><span>记住所有出生点，开局推演每种出生点的最优路线</span></li>
+            <li><span class="num">2</span><span>学会根据枪声判断敌人位置和行进方向</span></li>
+            <li><span class="num">3</span><span>掌握每个区域的进退路线（进攻路线 + 逃生路线）</span></li>
+            <li><span class="num">4</span><span>记住所有撤离点及其开启条件</span></li>
+          </ul>
+          <p style="margin-top:12px;font-size:.85rem;color:var(--text-dim)">⏱ 耗时：10-15局实战，刻意练习路线</p>
+        </div>
+        <div class="code-tip">
+# 通筋阶段自查清单
+✅ 出生后5秒内确定自己在哪、去哪里
+✅ 听到枪声能判断大概位置和距离
+✅ 每个区域至少有2条逃生路线
+✅ 知道所有撤离点及条件
+✅ 能预判敌人的常见行进路线
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Phase 4 -->
+  <div class="phase-card">
+    <div class="phase-header">
+      <span class="phase-num">04</span>
+      <div>
+        <div class="phase-title">入魂 — 形成肌肉记忆</div>
+        <div style="color:var(--text-dim);font-size:.85rem">目标：不需要思考，身体知道该怎么做</div>
+      </div>
+    </div>
+    <div class="phase-body">
+      <div class="grid-2">
+        <div>
+          <h4 style="color:var(--text-bright);margin-bottom:8px">📋 具体做法</h4>
+          <ul class="tip-list">
+            <li><span class="num">1</span><span>大量实战，各种情况都经历一遍</span></li>
+            <li><span class="num">2</span><span>刻意在不同出生点开局，练习对应路线</span></li>
+            <li><span class="num">3</span><span>看高手录像，对比自己的路线选择</span></li>
+            <li><span class="num">4</span><span>复盘每局死亡：为什么死？能从地图角度避免吗？</span></li>
+          </ul>
+          <p style="margin-top:12px;font-size:.85rem;color:var(--text-dim)">⏱ 耗时：持续进行，永无止境</p>
+        </div>
+        <div class="code-tip">
+# 入魂阶段特征
+🧠 听到枪声自动知道位置
+👣 走路不用看地图也知道在哪
+🎯 自动选择最优角度架枪
+🏃 逃生路线成为本能反应
+📊 能预测敌人1分钟后的位置
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 航天基地具体分析 ===== -->
+<section class="section" id="spaceport">
+  <div class="section-header">
+    <h2>🚀 航天基地 · 速记要点</h2>
+    <p>当前最热门地图的具体速记指南</p>
+  </div>
+
+  <div class="grid-2" style="margin-bottom:24px">
+    <div class="card" style="border-left:3px solid var(--accent)">
+      <h3><span class="emoji">📍</span>核心地标速记</h3>
+      <table style="font-size:.9rem">
+        <thead><tr><th>地标</th><th>关键词</th><th>一眼认出</th></tr></thead>
+        <tbody>
+          <tr><td>🛰️ 发射塔</td><td>地图中心、最高点</td><td>巨型火箭/塔架</td></tr>
+          <tr><td>🏭 组装车间</td><td>物资最肥</td><td>大型厂房、龙门吊</td></tr>
+          <tr><td>🏢 指挥中心</td><td>多层建筑</td><td>玻璃幕墙大楼</td></tr>
+          <tr><td>⛽ 燃料库</td><td>地下通道多</td><td>圆形储罐群</td></tr>
+          <tr><td>📦 物流区</td><td>集装箱密集</td><td>成排集装箱+叉车</td></tr>
+          <tr><td>🔬 实验室</td><td>高级物资</td><td>白色低矮建筑群</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="card" style="border-left:3px solid var(--gold)">
+      <h3><span class="emoji">🔥</span>热度分级</h3>
+      <table style="font-size:.9rem">
+        <thead><tr><th>热度</th><th>区域</th><th>建议</th></tr></thead>
+        <tbody>
+          <tr><td>🔥🔥🔥</td><td>组装车间</td><td>开局血拼区，熟图后再进</td></tr>
+          <tr><td>🔥🔥🔥</td><td>指挥中心</td><td>中层常驻全装队</td></tr>
+          <tr><td>🔥🔥</td><td>发射塔</td><td>狙击手常驻，注意高点</td></tr>
+          <tr><td>🔥🔥</td><td>实验室</td><td>中后期热门，物资好</td></tr>
+          <tr><td>🔥</td><td>燃料库</td><td>相对冷门，适合新手探图</td></tr>
+          <tr><td>🔥</td><td>物流区</td><td>物资分散但安全</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="card" style="margin-bottom:20px">
+    <h3><span class="emoji">⚡</span>航天基地特殊机制</h3>
+    <div class="grid-2" style="margin-top:12px">
+      <div>
+        <p><span class="hl-blue">发射倒计时</span> — 地图中后期发射塔会进入发射程序，全图警报响起，此时所有玩家位置互相暴露30秒。利用这个机会确认敌人分布，或者趁机偷袭正在看地图的敌人。</p>
+      </div>
+      <div>
+        <p><span class="hl-blue">地下管道系统</span> — 航天基地地下有连通多个区域的管道网络，是跑刀和转移的秘密通道。大部分玩家初期不知道这些管道，熟图后你会拥有别人没有的移动路线。</p>
+      </div>
+      <div>
+        <p><span class="hl-blue">高架通道</span> — 组装车间和发射塔之间有多条高空走廊，居高临下视野好，但也很暴露。高手常用这些通道快速转移，新手容易忽略。</p>
+      </div>
+      <div>
+        <p><span class="hl-blue">电梯捷径</span> — 指挥中心有可用的货运电梯，能从1楼直达顶楼。大多数人走楼梯，电梯是突袭和后撤的神器。</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="blockquote gold">
+    <p>"航天基地最容易被忽略的是垂直空间。大多数人只看平面地图，高手在利用每一条管道、每一个高架、每一个天窗。三维空间理解 + 地下管道系统 = 降维打击。"</p>
+  </div>
+</section>
+
+<!-- ===== 训练计划 ===== -->
+<section class="section" id="routine" style="background:rgba(255,255,255,0.008)">
+  <div class="section-header">
+    <h2>📅 7天熟图训练计划</h2>
+    <p>按部就班，7天从小白变地图专家</p>
+  </div>
+
+  <div class="grid-2">
+    <div class="card">
+      <h3><span class="emoji">📅</span>Day 1-2：跑图奠基</h3>
+      <ul class="checklist">
+        <li class="done">离线模式跑图3局，每局20分钟</li>
+        <li class="done">记住所有区域名字和方位</li>
+        <li class="done">认清6个核心地标的外形</li>
+        <li class="done">找到所有撤离点位置</li>
+        <li>画出简易手绘地图</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3><span class="emoji">📅</span>Day 3-4：深入探索</h3>
+      <ul class="checklist">
+        <li>跑刀模式逐个区域深入搜刮</li>
+        <li>每个建筑的所有楼层和房间都进</li>
+        <li>标记20+个高价值物资刷新点</li>
+        <li>探索所有地下通道和隐藏路径</li>
+        <li>记录所有可翻越的窗户和捷径</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3><span class="emoji">📅</span>Day 5-6：实战应用</h3>
+      <ul class="checklist">
+        <li>10局实战，刻意走不同出生点路线</li>
+        <li>练习听枪声判断位置（每局验证3次）</li>
+        <li>每次死亡看回放，标注击杀者位置</li>
+        <li>在每个区域练习至少2条逃生路线</li>
+        <li>主动去交火热点练习进退时机</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3><span class="emoji">📅</span>Day 7：综合检验</h3>
+      <ul class="checklist">
+        <li>闭眼默画完整地图（含物资点）</li>
+        <li>5局全装实战检验路线判断</li>
+        <li>能做到"听枪声→判断位置→决定路线"</li>
+        <li>死亡时能复盘出地图层面的原因</li>
+        <li>开始有"预判敌人位置"的能力</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 进阶技巧 ===== -->
+<section class="section" id="advanced">
+  <div class="section-header">
+    <h2>🎓 进阶技巧</h2>
+    <p>从"熟悉地图"到"掌控地图"</p>
+  </div>
+
+  <div class="grid-3">
+    <div class="card">
+      <h3><span class="emoji">🔊</span>声音地图法</h3>
+      <p>戴上好耳机，每一种地面材质走上去声音不同——<span class="hl-green">金属、水泥、草地、水</span>。听到脚步声不仅能判断方向，还能判断对方<span class="hl-gold">具体站在什么材质的表面上</span>，从而锁定精确位置。</p>
+    </div>
+    <div class="card">
+      <h3><span class="emoji">📸</span>死亡回放学习法</h3>
+      <p>每次死亡必看回放，<span class="hl-blue">截图击杀者的位置</span>。积累50张截图后，你会发现自己漏掉了大量架枪位和阴人点。把这些位置标注在手绘地图上。</p>
+    </div>
+    <div class="card">
+      <h3><span class="emoji">🎥</span>高手第一视角</h3>
+      <p>在B站/抖音搜三角洲高手录像，<span class="hl-red">关掉声音只看小地图</span>，预测他下一步会去哪里。对比实际选择，差距就是你的提升空间。</p>
+    </div>
+    <div class="card">
+      <h3><span class="emoji">⏱️</span>时间轴推演</h3>
+      <p>熟图高手脑子里有一条<span class="hl-gold">时间轴</span>：开局2分钟某出生点的人会到哪，5分钟后哪些区域打完了，10分钟后撤离点附近会有什么人。这是从"熟图"到"读图"的质变。</p>
+    </div>
+    <div class="card">
+      <h3><span class="emoji">🖊️</span>手绘地图</h3>
+      <p>最被低估的学习方法。拿纸笔<span class="hl-blue">不看游戏默画地图</span>，标注区域、物资点、撤离点。画不出来的地方就是你的知识盲区，下一局专门去探索。</p>
+    </div>
+    <div class="card">
+      <h3><span class="emoji">🔄</span>反刍复盘</h3>
+      <p>每打完一局，用30秒<span class="hl-green">在脑子里重放</span>：我出生在哪→去了哪→遇到了谁→怎么死的/怎么撤离的。这个习惯坚持一周，地图意识会飞跃性提升。</p>
+    </div>
+  </div>
+
+  <div class="blockquote" style="margin-top:32px">
+    <p>"熟图的终极形态不是'熟悉地图'，而是'地图在你脑子里实时演算'。你知道每个人的出生点、可能的路线、当前大致位置。你不是在玩射击游戏，你是在下一盘棋。"</p>
+  </div>
+</section>
+
+<!-- ===== 快速参考卡 ===== -->
+<section class="section" style="background:rgba(255,255,255,0.008)">
+  <div class="section-header">
+    <h2>📋 快速参考卡</h2>
+    <p>打印出来贴在显示器旁边，每局对照检查</p>
+  </div>
+
+  <div class="code-tip" style="text-align:center">
+╔══════════════════════════════════════╗
+║        🧠 熟图检查清单 v1.0         ║
+╠══════════════════════════════════════╣
+║                                      ║
+║  □ 开局3秒确认：我在哪个出生点？    ║
+║  □ 最近的高价值区在哪？            ║
+║  □ 枪声从哪里来？距离多远？        ║
+║  □ 当前位置有哪几条逃生路线？      ║
+║  □ 最近的撤离点在哪？什么条件？    ║
+║  □ 时间还剩多少？该打还是该撤？    ║
+║                                      ║
+╠══════════════════════════════════════╣
+║  今天的学习目标：___________        ║
+║  今天新发现的点位：_________        ║
+║  今天死亡的地图原因：_______        ║
+╚══════════════════════════════════════╝
+  </div>
+</section>
+
+<footer class="footer">
+  <p>三角洲行动 最快熟图技巧 · 航天基地篇</p>
+  <p style="margin-top:4px">Made with 🗺️ for all 三角洲玩家 | <a href="index.html">🗡️ 跑刀教学</a> | <a href="https://github.com/wangzeshi1/az3-guide" target="_blank">GitHub</a></p>
+</footer>
+
+<button class="scroll-top" onclick="window.scrollTo({top:0,behavior:'smooth'})" aria-label="回到顶部">↑</button>
+
+<script>
+  const btn = document.querySelector('.scroll-top');
+  window.addEventListener('scroll', () => btn.classList.toggle('visible', window.scrollY > 400));
+  const sections = document.querySelectorAll('.section');
+  const navLinks = document.querySelectorAll('.nav-links a');
+  window.addEventListener('scroll', () => {
+    let current = '';
+    sections.forEach(s => { if (window.scrollY >= s.offsetTop - 120) current = s.getAttribute('id'); });
+    navLinks.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + current));
+  });
+  navLinks.forEach(a => a.addEventListener('click', () => document.querySelector('.nav-links').classList.remove('open')));
+</script>
+</body>
+</html>
