@@ -1,0 +1,685 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>三角洲行动 AZ3 跑刀教学 — 从零到百万</title>
+<meta name="description" content="最全的三角洲行动 AZ3 跑刀教学指南，涵盖路线规划、搜刮技巧、撤离策略、进阶套路，助你空手套白狼！">
+<style>
+  /* ===== Reset & Base ===== */
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth;scroll-padding-top:70px}
+  body{
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+    background: #0a0e0f;
+    color: #c8ccd0;
+    line-height: 1.75;
+    font-size: 16px;
+  }
+
+  /* ===== Colors ===== */
+  :root{
+    --bg: #0a0e0f;
+    --bg-card: #13181a;
+    --bg-card-hover: #1a2023;
+    --border: #252b2e;
+    --gold: #d4a853;
+    --gold-bright: #f0c060;
+    --green: #5a9e6f;
+    --green-bright: #7cc08a;
+    --red: #c44b4b;
+    --red-bright: #e06060;
+    --accent: #3a7bd5;
+    --text: #c8ccd0;
+    --text-dim: #7a8086;
+    --text-bright: #e8ecf0;
+    --purple: #9b7ec4;
+  }
+
+  /* ===== Navbar ===== */
+  .navbar{
+    position: fixed; top:0; left:0; right:0; z-index:1000;
+    background: rgba(10,14,15,0.92);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    padding: 0 24px;
+    display: flex; align-items: center; justify-content: space-between;
+    height: 60px;
+  }
+  .navbar .logo{
+    font-size: 1.15rem; font-weight: 700; color: var(--text-bright);
+    display: flex; align-items: center; gap: 10px;
+    text-decoration: none;
+  }
+  .navbar .logo .icon{ font-size: 1.6rem; }
+  .nav-links{ display: flex; gap: 6px; list-style: none; flex-wrap: wrap; justify-content: flex-end; }
+  .nav-links a{
+    color: var(--text-dim); text-decoration: none; font-size: 0.85rem;
+    padding: 6px 12px; border-radius: 6px; transition: all .2s;
+    white-space: nowrap;
+  }
+  .nav-links a:hover, .nav-links a.active{ color: var(--gold); background: rgba(212,168,83,0.08); }
+  .menu-btn{ display: none; background: none; border: none; color: var(--text); font-size: 1.5rem; cursor: pointer; }
+
+  /* ===== Hero ===== */
+  .hero{
+    min-height: 100vh;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    text-align: center; padding: 100px 24px 80px;
+    background: radial-gradient(ellipse at 50% 30%, rgba(90,158,111,0.08) 0%, transparent 60%),
+                radial-gradient(ellipse at 80% 70%, rgba(212,168,83,0.06) 0%, transparent 50%),
+                var(--bg);
+    position: relative; overflow: hidden;
+  }
+  .hero::before{
+    content: ''; position: absolute; inset: 0;
+    background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23252b2e' fill-opacity='0.15'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    opacity: 0.4; pointer-events: none;
+  }
+  .hero .badge{
+    display: inline-block; padding: 6px 16px; border: 1px solid var(--gold);
+    color: var(--gold); font-size: 0.8rem; border-radius: 20px;
+    letter-spacing: 2px; margin-bottom: 24px; position: relative;
+    text-transform: uppercase;
+  }
+  .hero h1{
+    font-size: clamp(2.2rem, 5vw, 4rem); font-weight: 900;
+    color: var(--text-bright); line-height: 1.2; position: relative;
+    margin-bottom: 16px;
+  }
+  .hero h1 .accent{ color: var(--gold); }
+  .hero .subtitle{
+    font-size: 1.15rem; color: var(--text-dim); max-width: 520px;
+    position: relative; margin-bottom: 40px;
+  }
+  .hero .stats{
+    display: flex; gap: 40px; position: relative; flex-wrap: wrap; justify-content: center;
+  }
+  .hero .stat{ text-align: center; }
+  .hero .stat .num{ font-size: 2rem; font-weight: 800; color: var(--gold); }
+  .hero .stat .label{ font-size: 0.8rem; color: var(--text-dim); margin-top: 2px; }
+
+  /* ===== Section Common ===== */
+  .section{ padding: 80px 24px; max-width: 1000px; margin: 0 auto; }
+  .section-header{ text-align: center; margin-bottom: 56px; }
+  .section-header h2{
+    font-size: clamp(1.6rem, 3vw, 2.2rem); font-weight: 800;
+    color: var(--text-bright); margin-bottom: 12px;
+  }
+  .section-header .icon{ font-size: 1.3rem; margin-right: 4px; }
+  .section-header p{ color: var(--text-dim); max-width: 500px; margin: 0 auto; }
+
+  /* ===== Cards ===== */
+  .card{
+    background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px;
+    padding: 28px; transition: all .25s;
+  }
+  .card:hover{ background: var(--bg-card-hover); border-color: #333a3f; transform: translateY(-2px); }
+  .card h3{ font-size: 1.1rem; color: var(--text-bright); margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
+  .card h3 .emoji{ font-size: 1.3rem; }
+
+  .grid-2{ display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
+  .grid-3{ display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
+
+  /* ===== Advantage Table ===== */
+  .table-wrap{ overflow-x: auto; margin: 0 -8px; padding: 0 8px; }
+  table{ width: 100%; border-collapse: collapse; font-size: 0.95rem; }
+  thead th{
+    background: var(--bg-card); color: var(--text-bright); text-align: left;
+    padding: 14px 18px; font-weight: 700; border-bottom: 2px solid var(--border);
+    white-space: nowrap;
+  }
+  thead th:first-child{ border-radius: 8px 0 0 0; }
+  thead th:last-child{ border-radius: 0 8px 0 0; }
+  tbody td{ padding: 12px 18px; border-bottom: 1px solid var(--border); vertical-align: top; }
+  tbody tr:hover{ background: rgba(255,255,255,0.015); }
+  tbody tr:last-child td:first-child{ border-radius: 0 0 0 8px; }
+  tbody tr:last-child td:last-child{ border-radius: 0 0 8px 0; }
+
+  /* ===== Region Cards ===== */
+  .region-card{
+    background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px;
+    overflow: hidden; transition: all .25s;
+  }
+  .region-card:hover{ border-color: #333a3f; }
+  .region-card .region-header{
+    padding: 20px 24px; display: flex; align-items: center; gap: 12px;
+    border-bottom: 1px solid var(--border);
+  }
+  .region-card .region-icon{ font-size: 2rem; }
+  .region-card .region-title{ font-size: 1.15rem; font-weight: 700; color: var(--text-bright); }
+  .region-card .region-badge{
+    font-size: 0.75rem; padding: 2px 10px; border-radius: 12px;
+    font-weight: 600;
+  }
+  .badge-hot{ background: rgba(196,75,75,0.15); color: var(--red-bright); }
+  .badge-warm{ background: rgba(212,168,83,0.15); color: var(--gold-bright); }
+  .badge-cool{ background: rgba(90,158,111,0.15); color: var(--green-bright); }
+  .region-card .region-body{ padding: 20px 24px; }
+  .region-card .region-body .item{ display: flex; gap: 8px; margin-bottom: 8px; font-size: 0.92rem; }
+  .region-card .region-body .item .label{ color: var(--text-dim); min-width: 60px; flex-shrink: 0; }
+
+  /* ===== Tips List ===== */
+  .tip-list{ list-style: none; display: flex; flex-direction: column; gap: 12px; }
+  .tip-list li{
+    background: var(--bg-card); border: 1px solid var(--border); border-radius: 10px;
+    padding: 16px 20px; display: flex; align-items: flex-start; gap: 12px;
+    transition: all .2s;
+  }
+  .tip-list li:hover{ border-color: #333a3f; }
+  .tip-list li .num{
+    width: 28px; height: 28px; border-radius: 50%;
+    background: var(--gold); color: #0a0e0f; display: flex; align-items: center;
+    justify-content: center; font-weight: 800; font-size: 0.85rem; flex-shrink: 0;
+  }
+
+  /* ===== Priority Bar ===== */
+  .priority-bar{ display: flex; gap: 8px; flex-wrap: wrap; margin: 16px 0; }
+  .priority-bar .tier{
+    padding: 8px 16px; border-radius: 8px; font-weight: 700; font-size: 0.9rem;
+  }
+  .tier-gold{ background: rgba(212,168,83,0.15); color: var(--gold-bright); border: 1px solid rgba(212,168,83,0.3); }
+  .tier-purple{ background: rgba(155,126,196,0.15); color: var(--purple); border: 1px solid rgba(155,126,196,0.3); }
+  .tier-blue{ background: rgba(58,123,213,0.15); color: var(--accent); border: 1px solid rgba(58,123,213,0.3); }
+  .tier-gray{ background: rgba(122,128,134,0.1); color: var(--text-dim); border: 1px solid rgba(122,128,134,0.2); }
+
+  /* ===== Quote ===== */
+  .blockquote{
+    background: linear-gradient(135deg, rgba(212,168,83,0.06), rgba(212,168,83,0.02));
+    border-left: 3px solid var(--gold);
+    border-radius: 0 10px 10px 0; padding: 24px 28px; margin: 32px 0;
+  }
+  .blockquote p{ font-size: 1.1rem; color: var(--gold-bright); font-style: italic; }
+
+  /* ===== Evac Table ===== */
+  .evac-table td:first-child{ font-weight: 600; color: var(--text-bright); }
+  .stars{ color: var(--gold); letter-spacing: 2px; }
+
+  /* ===== Footer ===== */
+  .footer{
+    text-align: center; padding: 48px 24px; color: var(--text-dim); font-size: 0.85rem;
+    border-top: 1px solid var(--border);
+  }
+  .footer a{ color: var(--gold); text-decoration: none; }
+
+  /* ===== Scroll-to-top ===== */
+  .scroll-top{
+    position: fixed; bottom: 24px; right: 24px; z-index: 999;
+    width: 44px; height: 44px; border-radius: 50%;
+    background: var(--bg-card); border: 1px solid var(--border);
+    color: var(--text); font-size: 1.2rem; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    opacity: 0; pointer-events: none; transition: all .3s;
+  }
+  .scroll-top.visible{ opacity: 1; pointer-events: auto; }
+  .scroll-top:hover{ background: var(--bg-card-hover); border-color: var(--gold); color: var(--gold); }
+
+  /* ===== Mobile ===== */
+  @media (max-width: 768px){
+    .nav-links{ display: none; }
+    .nav-links.open{
+      display: flex; flex-direction: column;
+      position: absolute; top: 60px; left: 0; right: 0;
+      background: rgba(10,14,15,0.97); backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border); padding: 12px;
+    }
+    .nav-links a{ padding: 10px 12px; }
+    .menu-btn{ display: block; }
+    .hero .stats{ gap: 24px; }
+    .grid-2, .grid-3{ grid-template-columns: 1fr; }
+    .section{ padding: 56px 16px; }
+  }
+
+  /* ===== Code blocks (for game tips) ===== */
+  .code-tip{
+    background: #0d1114; border: 1px solid var(--border); border-radius: 10px;
+    padding: 20px; font-family: "SF Mono", "Fira Code", "Consolas", monospace;
+    font-size: 0.88rem; color: var(--green-bright); line-height: 1.8;
+    overflow-x: auto; white-space: pre-wrap;
+  }
+
+  /* ===== Highlight text ===== */
+  .hl-gold{ color: var(--gold-bright); font-weight: 600; }
+  .hl-green{ color: var(--green-bright); font-weight: 600; }
+  .hl-red{ color: var(--red-bright); font-weight: 600; }
+</style>
+</head>
+<body>
+
+<!-- ===== Navbar ===== -->
+<nav class="navbar">
+  <a href="#" class="logo">
+    <span class="icon">🗡️</span> AZ3 跑刀指南
+  </a>
+  <button class="menu-btn" aria-label="菜单" onclick="document.querySelector('.nav-links').classList.toggle('open')">☰</button>
+  <ul class="nav-links">
+    <li><a href="#intro">基础</a></li>
+    <li><a href="#regions">路线</a></li>
+    <li><a href="#gear">装备</a></li>
+    <li><a href="#tips">技巧</a></li>
+    <li><a href="#extract">撤离</a></li>
+    <li><a href="#advanced">进阶</a></li>
+  </ul>
+</nav>
+
+<!-- ===== Hero ===== -->
+<section class="hero">
+  <div class="badge">Delta Force · 跑刀攻略</div>
+  <h1>AZ3 <span class="accent">跑刀</span>教学</h1>
+  <p class="subtitle">零成本入场，满背包撤离。掌握跑刀艺术，成为 AZ3 最灵活的拾荒者。</p>
+  <div class="stats">
+    <div class="stat"><div class="num">0 成本</div><div class="label">每局投入</div></div>
+    <div class="stat"><div class="num">50w+</div><div class="label">时均收益</div></div>
+    <div class="stat"><div class="num">6 路线</div><div class="label">撤离选择</div></div>
+  </div>
+</section>
+
+<!-- ===== 什么是跑刀 ===== -->
+<section class="section" id="intro">
+  <div class="section-header">
+    <h2><span class="icon">⚔️</span>什么是跑刀？</h2>
+    <p>三角洲行动中最经典的零成本致富之路</p>
+  </div>
+
+  <div class="grid-2">
+    <div class="card">
+      <h3><span class="emoji">🎯</span>核心理念</h3>
+      <p>只带一把近战武器进入战局，利用机动性和地图知识快速搜刮高价值物资，安全撤离。<strong style="color:var(--gold-bright)">投入越少，回报越高。</strong></p>
+    </div>
+    <div class="card">
+      <h3><span class="emoji">💡</span>为什么跑刀？</h3>
+      <p>成本几乎为零（不带枪、不带甲、不带包），死了不心疼。捡到的每一个物品都是纯利润，是新手<strong style="color:var(--green-bright)">攒钱最快</strong>的方式。</p>
+    </div>
+  </div>
+
+  <div style="margin-top:28px">
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>优势</th><th>说明</th><th>对比全装</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>🔒 零成本</td><td>不带任何装备入局</td><td>全装局投入5-20万</td></tr>
+          <tr><td>🏃 高机动</td><td>轻装上阵，移动快、脚步小</td><td>全装移动慢、声音大</td></tr>
+          <tr><td>💰 高回报</td><td>捡到任何东西都是纯赚</td><td>需要回本才盈利</td></tr>
+          <tr><td>😌 低压力</td><td>死了直接下一把，不纠结</td><td>丢装备心态容易崩</td></tr>
+          <tr><td>🗺️ 熟悉地图</td><td>快速积累地图理解</td><td>战斗为主，忽略细节</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- ===== AZ3 地图分析 ===== -->
+<section class="section" id="regions" style="background:rgba(255,255,255,0.008)">
+  <div class="section-header">
+    <h2><span class="icon">🗺️</span>AZ3 地图分析</h2>
+    <p>零号大坝 / 阿萨拉地区 — 当前版本最热门跑刀地图</p>
+  </div>
+
+  <div class="code-tip" style="margin-bottom:32px">
+# 推荐跑刀路线（按优先级）
+变电站 → 行政楼外围 → 污水处理厂 → 地下通道
+
+# 核心原则
+开局直奔高价值区 → 搜完就走别停留 → 听枪声判断安全 → 提前规划撤离
+  </div>
+
+  <div class="grid-2">
+    <!-- 变电站 -->
+    <div class="region-card">
+      <div class="region-header">
+        <div class="region-icon">⚡</div>
+        <div>
+          <div class="region-title">变电站</div>
+          <span class="region-badge badge-hot">高优先级</span>
+        </div>
+      </div>
+      <div class="region-body">
+        <div class="item"><span class="label">⏰ 时机</span>开局直奔或枪声停后</div>
+        <div class="item"><span class="label">🔍 重点</span>二楼办公室文件、一楼配电室工具、外围集装箱</div>
+        <div class="item"><span class="label">⚠️ 注意</span>狙击手热门点位，贴墙走位</div>
+        <div class="item"><span class="label">🏃 撤离</span>侧面楼梯下 → 河道方向</div>
+      </div>
+    </div>
+
+    <!-- 行政楼 -->
+    <div class="region-card">
+      <div class="region-header">
+        <div class="region-icon">🏢</div>
+        <div>
+          <div class="region-title">行政楼</div>
+          <span class="region-badge badge-hot">高优先级</span>
+        </div>
+      </div>
+      <div class="region-body">
+        <div class="item"><span class="label">⏰ 时机</span>中后期（开局10分钟后）</div>
+        <div class="item"><span class="label">🔍 重点</span>三楼经理室金表、二楼会议室电子设备</div>
+        <div class="item"><span class="label">⚠️ 注意</span>多入口易被包抄，保持移动</div>
+        <div class="item"><span class="label">🏃 撤离</span>搜完一层换一个楼梯，别原路返回</div>
+      </div>
+    </div>
+
+    <!-- 污水处理厂 -->
+    <div class="region-card">
+      <div class="region-header">
+        <div class="region-icon">💧</div>
+        <div>
+          <div class="region-title">污水处理厂</div>
+          <span class="region-badge badge-cool">新手友好</span>
+        </div>
+      </div>
+      <div class="region-body">
+        <div class="item"><span class="label">⏰ 时机</span>任意时间，竞争少</div>
+        <div class="item"><span class="label">🔍 重点</span>控制室电子元件、管道区工具包</div>
+        <div class="item"><span class="label">⚠️ 注意</span>地形狭窄，遭遇战难拉开</div>
+        <div class="item"><span class="label">🏃 撤离</span>厂区后门 → 沿围墙走</div>
+      </div>
+    </div>
+
+    <!-- 地下通道 -->
+    <div class="region-card">
+      <div class="region-header">
+        <div class="region-icon">🕳️</div>
+        <div>
+          <div class="region-title">地下通道</div>
+          <span class="region-badge badge-warm">双刃剑</span>
+        </div>
+      </div>
+      <div class="region-body">
+        <div class="item"><span class="label">✅ 利用</span>快速穿行各区域，躲避地面火力</div>
+        <div class="item"><span class="label">❌ 避免</span>长时间逗留，全装队常在此堵口</div>
+        <div class="item"><span class="label">💡 建议</span>只用于穿行，不要在地下通道搜刮</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 装备推荐 ===== -->
+<section class="section" id="gear">
+  <div class="section-header">
+    <h2><span class="icon">🎒</span>装备推荐</h2>
+    <p>投入越少，心态越稳</p>
+  </div>
+
+  <div class="grid-2">
+    <div class="card" style="border-left: 3px solid var(--green)">
+      <h3><span class="emoji">🆓</span>最丐版 · 纯零成本</h3>
+      <div class="code-tip" style="margin-top: 8px">
+主武器：<span style="color:var(--text-dim)">无</span>
+副武器：<span style="color:var(--text-dim)">无</span>
+近　战：<span style="color:var(--green-bright)">任意刀</span>
+护　甲：<span style="color:var(--text-dim)">无</span>
+背　包：<span style="color:var(--text-dim)">无</span>
+药　品：<span style="color:var(--text-dim)">不带</span>
+      </div>
+      <p style="margin-top:12px;font-size:0.9rem;color:var(--text-dim)">死了直接下一把，零心理负担</p>
+    </div>
+
+    <div class="card" style="border-left: 3px solid var(--gold)">
+      <h3><span class="emoji">📈</span>进阶版 · 微投入</h3>
+      <div class="code-tip" style="margin-top: 8px">
+近　战：<span style="color:var(--gold-bright)">战术匕首</span>（攻速更快）
+背　包：<span style="color:var(--gold-bright)">小包</span>（捡到东西能装）
+药　品：<span style="color:var(--gold-bright)">1个简易绷带</span>（防万一）
+
+总投入 ≈ <span style="color:var(--gold-bright)">2000-5000</span>
+      </div>
+      <p style="margin-top:12px;font-size:0.9rem;color:var(--text-dim)">适合有经验的跑刀仔，提高生存率</p>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 搜刮优先级 ===== -->
+<section class="section" style="background:rgba(255,255,255,0.008)">
+  <div class="section-header">
+    <h2><span class="icon">💎</span>搜刮优先级</h2>
+    <p>背包有限，只拿最值钱的</p>
+  </div>
+
+  <div class="priority-bar" style="justify-content:center;margin-bottom:24px">
+    <span class="tier tier-gold">金 ></span>
+    <span class="tier tier-purple">紫 ></span>
+    <span class="tier tier-blue">医疗物资 ></span>
+    <span class="tier tier-blue">弹药 ></span>
+    <span class="tier tier-gray">武器配件 ></span>
+    <span class="tier tier-gray">垃圾</span>
+  </div>
+
+  <div class="grid-3">
+    <div class="card">
+      <h3><span class="emoji">🥇</span>必捡（金/紫）</h3>
+      <ul style="list-style:none;line-height:2.2;font-size:0.92rem">
+        <li>💍 金表 / 钻石 / 古董</li>
+        <li>📿 项链 / 金戒指</li>
+        <li>🔮 紫色军用物资</li>
+        <li>📡 高级电子设备</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3><span class="emoji">🥈</span>优选（高价值小体积）</h3>
+      <ul style="list-style:none;line-height:2.2;font-size:0.92rem">
+        <li>🔌 电子元件 / 电路板</li>
+        <li>💉 高级医疗包</li>
+        <li>🔧 稀有工具组件</li>
+        <li>📄 机密文件</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3><span class="emoji">🥉</span>可选（填格子用）</h3>
+      <ul style="list-style:none;line-height:2.2;font-size:0.92rem">
+        <li>🔫 高级武器配件</li>
+        <li>🩹 中级医疗物资</li>
+        <li>💣 投掷物（自用）</li>
+        <li>🎒 比身上更好的包</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 核心技巧 ===== -->
+<section class="section" id="tips">
+  <div class="section-header">
+    <h2><span class="icon">🎯</span>核心技巧</h2>
+    <p>跑刀不是无脑冲，技巧决定成败</p>
+  </div>
+
+  <h3 style="color:var(--text-bright);margin-bottom:16px">🗺️ 地图意识</h3>
+  <ul class="tip-list" style="margin-bottom:32px">
+    <li><span class="num">1</span><span><strong>记住所有出生点</strong> — 开局就知道附近可能从哪里来人，提前规避</span></li>
+    <li><span class="num">2</span><span><strong>背熟撤离点</strong> — 提前规划 2 条以上撤离路线，永远有后备方案</span></li>
+    <li><span class="num">3</span><span><strong>听声辨位</strong> — 戴上耳机，通过枪声判断交战位置、方向和距离</span></li>
+  </ul>
+
+  <h3 style="color:var(--text-bright);margin-bottom:16px">⚔️ 战斗/躲避原则</h3>
+  <ul class="tip-list" style="margin-bottom:32px">
+    <li><span class="num">1</span><span><strong>绝不主动开战</strong> — 你是来捡垃圾的，不是来打架的。安静才是你的武器</span></li>
+    <li><span class="num">2</span><span><strong>听到脚步先躲</strong> — 躲进房间、角落、草丛，等对方离开。耐心是跑刀的第一美德</span></li>
+    <li><span class="num">3</span><span><strong>被发现了就跑</strong> — 蛇皮走位 + 跳 + 滑铲，往复杂地形跑，利用你的机动优势</span></li>
+  </ul>
+
+  <h3 style="color:var(--text-bright);margin-bottom:16px">🔪 刀人时机</h3>
+  <div class="grid-2">
+    <div class="card" style="border-left: 3px solid var(--green)">
+      <h3><span class="emoji">✅</span>最佳刀人场景</h3>
+      <ul style="list-style:none;line-height:2;font-size:0.92rem">
+        <li>🎒 敌人在搜刮/打药（静止目标）</li>
+        <li>🔄 敌人换弹中（2-3秒窗口）</li>
+        <li>👤 背对你的敌人</li>
+        <li>😮‍💨 残血敌人（听呼吸声判断）</li>
+      </ul>
+    </div>
+    <div class="card" style="border-left: 3px solid var(--red)">
+      <h3><span class="emoji">🎮</span>刀法要领</h3>
+      <ul style="list-style:none;line-height:2;font-size:0.92rem">
+        <li>⚡ 冲刺+跳跃劈砍 → 伤害最高</li>
+        <li>🔄 贴身绕圈刀 → 对手转不过视角</li>
+        <li>🚪 利用拐角和门口卡视野</li>
+        <li>😱 出其不意 → 心理优势最大</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 撤离策略 ===== -->
+<section class="section" id="extract" style="background:rgba(255,255,255,0.008)">
+  <div class="section-header">
+    <h2><span class="icon">🚁</span>撤离策略</h2>
+    <p>安全撤离才是真正的胜利</p>
+  </div>
+
+  <div class="table-wrap">
+    <table class="evac-table">
+      <thead>
+        <tr><th>撤离点</th><th>条件</th><th>推荐度</th><th>说明</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>🏞️ 河道撤离点</td>
+          <td>无条件</td>
+          <td><span class="stars">★★★★★</span></td>
+          <td>最安全、最方便，跑刀首选</td>
+        </tr>
+        <tr>
+          <td>🛣️ 北侧公路</td>
+          <td>无条件</td>
+          <td><span class="stars">★★★★</span></td>
+          <td>位置偏远，不太容易被蹲</td>
+        </tr>
+        <tr>
+          <td>🚇 南侧隧道</td>
+          <td>需拉闸/等待</td>
+          <td><span class="stars">★★★</span></td>
+          <td>等待期间有风险，不太推荐</td>
+        </tr>
+        <tr>
+          <td>🚁 直升机平台</td>
+          <td>需信号弹</td>
+          <td><span class="stars">★★</span></td>
+          <td>跑刀一般不备信号弹</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <ul class="tip-list" style="margin-top:28px">
+    <li><span class="num">1</span><span><strong>提前出发</strong> — 撤离前1分钟就开始往撤离点移动，不要卡点</span></li>
+    <li><span class="num">2</span><span><strong>先观察</strong> — 接近撤离点时停下来观察10秒，确认安全再冲</span></li>
+    <li><span class="num">3</span><span><strong>选偏的</strong> — 多个撤离点都开放时，选最偏的那个，不容易被蹲</span></li>
+    <li><span class="num">4</span><span><strong>让队友探路</strong> — 如果有随机匹配的队友在撤离点附近，等他们先动</span></li>
+  </ul>
+</section>
+
+<!-- ===== 进阶套路 ===== -->
+<section class="section" id="advanced">
+  <div class="section-header">
+    <h2><span class="icon">🧠</span>进阶套路</h2>
+    <p>当基础跑刀已经满足不了你</p>
+  </div>
+
+  <div class="grid-2">
+    <div class="card">
+      <h3><span class="emoji">🎣</span>钓鱼战术</h3>
+      <p>在热门搜刮点的必经之路上，丢一件垃圾物资在地上当诱饵。躲在角落等全装哥来捡，趁其不备刀掉他 — <span class="hl-gold">一波肥</span>。</p>
+    </div>
+    <div class="card">
+      <h3><span class="emoji">👂</span>跟着枪声走</h3>
+      <p>听到交火 → 摸过去 → 等双方打完 → 趁胜利方舔包时偷袭。这是跑刀收益<span class="hl-gold">最高</span>的套路，但需要耐心和时机判断。</p>
+    </div>
+    <div class="card">
+      <h3><span class="emoji">🏕️</span>守撤离点</h3>
+      <p>在热门撤离点附近蹲守，等带了一背包东西的玩家来撤离时偷袭。<span class="hl-red">收益极高但风险也大</span>，适合对地图极度熟悉的玩家。</p>
+    </div>
+    <div class="card">
+      <h3><span class="emoji">🔫</span>带把小手枪</h3>
+      <p>花几千块带把最便宜的手枪 + 一梭子弹，遇到人至少有还手能力。适合跑刀<span class="hl-green">过渡期</span>，作为从纯跑刀到半装的桥梁。</p>
+    </div>
+  </div>
+
+  <div class="blockquote">
+    <p>"跑刀的乐趣在于以小博大。一把刀换一背包的感觉，比全装吃鸡还爽。"</p>
+  </div>
+</section>
+
+<!-- ===== 心理建设 & 收益 ===== -->
+<section class="section" style="background:rgba(255,255,255,0.008)">
+  <div class="section-header">
+    <h2><span class="icon">🧘</span>心理建设 & 收益预期</h2>
+    <p>心态好，收益才好</p>
+  </div>
+
+  <div class="grid-2" style="margin-bottom:32px">
+    <div class="card">
+      <h3><span class="emoji">💪</span>跑刀心态</h3>
+      <ul style="list-style:none;line-height:2.2;font-size:0.92rem">
+        <li>😤 死了别气 — 空手套白狼，死10次成功1次就血赚</li>
+        <li>✋ 不要贪 — 捡到好东西立刻撤离，贪多必失</li>
+        <li>😄 享受过程 — 以小博大的快感是无与伦比的</li>
+        <li>📝 学会复盘 — 每次死了想想为什么，是路线还是判断</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3><span class="emoji">📊</span>收益预期</h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>水平</th><th>成功率</th><th>均收益/局</th></tr></thead>
+          <tbody>
+            <tr><td>🟢 新手</td><td>10-20%</td><td>5-10万</td></tr>
+            <tr><td>🟡 熟练</td><td>30-50%</td><td>15-30万</td></tr>
+            <tr><td>🔴 大佬</td><td>60%+</td><td>50万+</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="blockquote" style="text-align:center">
+    <p style="font-size:1.3rem;font-style:normal;line-height:1.8">
+      🗡️ 开局先看圈，直奔变电站<br>
+      💰 搜完别贪心，听到脚步蹲<br>
+      🏃 撤离走河边，安全又多金<br>
+      🎯 死了不亏钱，活着就是赚
+    </p>
+  </div>
+</section>
+
+<!-- ===== Footer ===== -->
+<footer class="footer">
+  <p>三角洲行动 AZ3 跑刀教学 · 持续更新中</p>
+  <p style="margin-top:4px">Made with 🎮 for all 跑刀爱好者 | <a href="https://github.com" target="_blank">GitHub Pages</a></p>
+</footer>
+
+<!-- ===== Scroll to Top ===== -->
+<button class="scroll-top" onclick="window.scrollTo({top:0,behavior:'smooth'})" aria-label="回到顶部">↑</button>
+
+<script>
+  // Scroll-to-top visibility
+  const btn = document.querySelector('.scroll-top');
+  window.addEventListener('scroll', () => {
+    btn.classList.toggle('visible', window.scrollY > 400);
+  });
+
+  // Active nav link on scroll
+  const sections = document.querySelectorAll('.section');
+  const navLinks = document.querySelectorAll('.nav-links a');
+  window.addEventListener('scroll', () => {
+    let current = '';
+    sections.forEach(s => {
+      if (window.scrollY >= s.offsetTop - 120) current = s.getAttribute('id');
+    });
+    navLinks.forEach(a => {
+      a.classList.toggle('active', a.getAttribute('href') === '#' + current);
+    });
+  });
+
+  // Close mobile menu on link click
+  navLinks.forEach(a => {
+    a.addEventListener('click', () => {
+      document.querySelector('.nav-links').classList.remove('open');
+    });
+  });
+</script>
+
+</body>
+</html>
